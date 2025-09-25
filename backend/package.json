@@ -10,9 +10,10 @@
   "license": "ISC",
   "author": "Shivam Karn",
   "type": "module",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.ts",
+    "dev": "nodemon src/index.ts"
   },
   "devDependencies": {
     "@types/node": "^24.5.2",
