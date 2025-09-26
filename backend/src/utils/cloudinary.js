@@ -18,7 +18,7 @@ const uploadOnCloudinary = async (localFilePath) => {
       resource_type: "auto"
     })
 
-    // Delete local file after upload
+    // Delete local file immediately after upload
     fs.unlinkSync(localFilePath)
     return response
 
