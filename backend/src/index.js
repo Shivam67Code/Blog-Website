@@ -13,10 +13,6 @@ connectDB()
         `Server is running at http://localhost:${process.env.PORT || 8000}`
       );
     });
-
-    app.get("/", (req, res) => {
-      res.send("<h1>Server is running smooth Relax 😊🌿</h1>");
-    });
   })
   .catch((error) => {
     console.log("MongoDB connection failed:", error);
