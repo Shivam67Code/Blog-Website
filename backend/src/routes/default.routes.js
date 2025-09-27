@@ -5,12 +5,13 @@ const defaultRoute = (req, res) => {
     </head><body>
     <div class="card">
         <h1>Blog-Website Backend API</h1>
-        <p>✅ Server Running Successfully</p>
+        <p>🐧Server Running Successfully</p>
         <p><strong>Author:</strong> Shivam Karn</p>
     </div></body></html>`
   res.status(200).send(htmlContent)
 };
 
+// this route just for fun testing 
 const healthRoute = (req, res) => {
   const htmlContent = `
     <!DOCTYPE html>
@@ -19,7 +20,7 @@ const healthRoute = (req, res) => {
     </head><body>
     <div class="card">
         <h1>💚 Health Check</h1>
-        <p>🟢 All Systems Online</p>
+        <p>All Systems Online</p>
         <p><a href="/" style="color:#ffffff">← Back Home</a></p>
     </div></body></html>`;
   res.status(200).send(htmlContent)
