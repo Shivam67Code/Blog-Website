@@ -1,6 +1,7 @@
 import {
   loginUser,
   logOutUser,
+  refreshAccessToken,
   registerUser
 }
   from "../controllers/user.controller.js";
@@ -23,6 +24,5 @@ router.route("/register").post(
 )
 router.route("/login").post(loginUser)
 router.route("/logout").post(verifyJWT, logOutUser)
-
-
+router.route("/refresh-token").post(refreshAccessToken)
 export default router
