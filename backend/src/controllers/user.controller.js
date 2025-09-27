@@ -86,7 +86,7 @@ const generateRefreshAndAccessToken = async (userId) => {
 
     // // set firts
     // user.refreshToken = refreshToken
-    // // now save
+    // // now save the refreshToken
     // await user.save({ validateBeforeSave: false })
     // Either do these two steps or just do the following 
     await User.findByIdAndUpdate(userId, { refreshToken })
