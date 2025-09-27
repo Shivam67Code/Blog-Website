@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose"
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
+import crypto from 'crypto'
 
 
 const userSchema = new Schema(
@@ -39,6 +40,12 @@ const userSchema = new Schema(
     refreshToken: {
       type: String,
     },
+    passwordResetToken: {
+      type: String
+    },
+    passwordResetExpires: {
+      type: Date
+    }
   }, { timestamps: true }
 )
 
@@ -80,6 +87,31 @@ userSchema.methods.generateRefreshToken = function () {
       expiresIn: process.env.REFRESH_TOKEN_EXPIRY
     }
   )
+}
+
+// Add debugging to this method
+userSchema.methods.generatePasswordResetToken = function () {
+  // Generate 6-digit reset token
+  const resetToken = Math.floor(100000 + Math.random() * 900000).toString();
+
+  console.log("=== MODEL DEBUG ===")
+  console.log("Plain token generated:", resetToken)
+
+  // Hash the token before saving to database
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  console.log("Hashed token:", this.passwordResetToken)
+
+  // Set expiry time (10 minutes)
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  console.log("Expiry set to:", this.passwordResetExpires)
+
+  // Return unhashed token (to send via email)
+  return resetToken;
 }
 
 
