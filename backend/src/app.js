@@ -2,6 +2,7 @@ import express, { urlencoded } from 'express';
 import cors from 'cors'
 import cookieParser from "cookie-parser"
 import postRouter from "./routes/post.routes.js"
+import commentRouter from "./routes/comment.routes.js"
 
 const app = express()
 app.use(cors({
@@ -22,6 +23,7 @@ app.use("/api/v1/users", userRouter)
 app.get('/health', healthRoute)
 app.get("/", defaultRoute)
 app.use("/api/v1/posts", postRouter)
+app.use("/api/v1/comments", commentRouter)
 
 // 404 handler for unmatched routes
 app.use((req, res, next) => {
