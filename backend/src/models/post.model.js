@@ -51,7 +51,7 @@ const postSchema = new Schema(
     },
     views: {
       type: Number,
-      deafult: 0
+      default: 0
     },
     likes: [{
       type: Schema.Types.ObjectId,
@@ -69,7 +69,10 @@ const postSchema = new Schema(
         required: true,
         trim: true
       },
-      timestamps: true
+      createdAt: {
+        type: Date,
+        default: Date.now
+      }
     }],
     isPublished: {
       type: Boolean,
@@ -99,7 +102,6 @@ postSchema.index({ categories: 1 })
 postSchema.pre("save", function (next) {
   if (!this.slug && this.title) {
     this.slug = this.title
-      .toLowerCase()
       .toLowerCase()
       .replace(/[^a-zA-Z0-9\s]/g, '')
       .replace(/\s+/g, '-')
@@ -139,6 +141,8 @@ postSchema.methods.addLike = function (userId) {
 
 postSchema.methods.removeLike = function (userId) {
   this.likes = this.likes.filter(id => !id.equals(userId))
+  return this.save()
+
 }
 postSchema.methods.addComment = function (userId, content) {
   this.comments.push({
@@ -154,6 +158,6 @@ postSchema.virtual('commentCount').get(function () {
   return this.comments.length
 })
 
-postSchema.set('toJson', { virtuals: true })
+postSchema.set('toJSON', { virtuals: true })
 
 export const Post = mongoose.model("Post", postSchema)
