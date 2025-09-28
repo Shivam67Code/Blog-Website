@@ -114,5 +114,22 @@ userSchema.methods.generatePasswordResetToken = function () {
   return resetToken;
 }
 
+// Add this method to verify password reset tokens
+userSchema.methods.verifyPasswordResetToken = function (token) {
+  if (!token || !this.passwordResetToken) {
+    return false;
+  }
+
+  // Hash the provided token
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(token)
+    .digest('hex');
+
+  // Compare with stored hashed token and check expiry
+  return hashedToken === this.passwordResetToken &&
+    Date.now() < this.passwordResetExpires;
+}
+
 
 export const User = mongoose.model("User", userSchema)

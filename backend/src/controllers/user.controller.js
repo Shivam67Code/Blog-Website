@@ -100,8 +100,8 @@ const generateRefreshAndAccessToken = async (userId) => {
 
 const loginUser = asyncHandler(async (req, res) => {
   try {
-    console.log("=== LOGIN DEBUG ===")
-    console.log("Request body:", req.body)
+    // console.log("=== LOGIN DEBUG ===")
+    // console.log("Request body:", req.body)
 
     if (!req.body) {
       throw new ApiError(400, "Request Body is empty/Undefined")
@@ -122,9 +122,14 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 
     // Validate password
-    const isPasswordValid = await user.isPasswordCorrect(password)
-    if (!isPasswordValid) {
-      throw new ApiError(401, "Incorrect Password")
+    // validate password if provided
+    if (password) {
+      const isPasswordValid = await user.isPasswordCorrect(password)
+      if (!isPasswordValid) {
+        throw new ApiError(401, "Incorrect Password")
+      }
+    } else {
+      throw new ApiError(400, "Password is required For loggin In !! .")
     }
 
     const { accessToken, refreshToken } = await generateRefreshAndAccessToken(user._id)
@@ -178,7 +183,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
 
   if (!incomingRefreshToken) {
-    throw new ApiError(401, "Unauthorized request")
+    throw new ApiError(401, "Unauthorized request, Refresh Token Required ! ")
   }
 
   try {

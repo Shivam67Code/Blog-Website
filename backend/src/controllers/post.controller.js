@@ -6,6 +6,12 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js"
 
 // create post
 const createPost = asyncHandler(async (req, res) => {
+  // Debug consoles
+  console.log("=== CREATE POST DEBUG ===")
+  console.log("req body is : ", req.body)
+  console.log("Content-Type:", req.headers['content-type'])
+
+
   // 1.get contents
   const { tags, content, title } = req.body
   // 2. check for content fields

@@ -20,8 +20,6 @@ const postSchema = new Schema(
     slug: {
       type: String,
       lowercase: true,
-      required: true,
-      unique: true,
     },
     author: {
       type: Schema.Types.ObjectId,
@@ -100,22 +98,43 @@ postSchema.index({ tags: 1 })
 postSchema.index({ categories: 1 })
 
 postSchema.pre("save", function (next) {
-  if (!this.slug && this.title) {
-    this.slug = this.title
+  console.log("=== PRE-SAVE MIDDLEWARE DEBUG ===");
+  console.log("this.title:", this.title);
+  console.log("this.slug before:", this.slug);
+
+  // Always generate slug if title exists (even if slug exists, regenerate for safety)
+  if (this.title) {
+    // Add timestamp to ensure uniqueness
+    const timestamp = Date.now().toString(36);
+    const baseSlug = this.title
       .toLowerCase()
-      .replace(/[^a-zA-Z0-9\s]/g, '')
-      .replace(/\s+/g, '-')
-      .substring(0, 100)
+      .replace(/[^a-zA-Z0-9\s]/g, '') // Remove special characters
+      .replace(/\s+/g, '-')           // Replace spaces with hyphens
+      .replace(/-+/g, '-')            // Replace multiple hyphens with single
+      .replace(/^-|-$/g, '')          // Remove leading/trailing hyphens
+      .substring(0, 60);              // Limit length
+
+    this.slug = baseSlug + '-' + timestamp;
   }
-  // TO find REad time
+
+  // Fallback if still no slug
+  if (!this.slug) {
+    this.slug = 'post-' + Date.now().toString(36);
+  }
+
+  console.log("this.slug after:", this.slug);
+
+  // Find read time
   if (this.content) {
     const wordCount = this.content.split(/\s+/).length
     this.readTime = Math.ceil(wordCount / 200)
   }
+
   if (this.status === 'published' && !this.publishedAt) {
     this.publishedAt = new Date()
     this.isPublished = true
   }
+
   if (!this.excerpt && this.content) {
     this.excerpt = this.content.replace(/<[^>]*>/g, '') // Remove HTML tags
       .substring(0, 300)
@@ -123,8 +142,6 @@ postSchema.pre("save", function (next) {
   }
 
   next()
-
-
 })
 
 postSchema.methods.incrementViews = function () {
