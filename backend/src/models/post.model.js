@@ -34,7 +34,7 @@ const postSchema = new Schema(
     status: {
       type: String,
       enum: ["draft", "published", "archived"],
-      deafult: "draft"
+      default: "draft"
     },
     categories: [{
       type: String,
@@ -63,6 +63,12 @@ const postSchema = new Schema(
         ref: "User",
         required: true
       },
+      content:
+      {
+        type: String,
+        required: true,
+        trim: true
+      },
       timestamps: true
     }],
     isPublished: {
@@ -85,7 +91,7 @@ const postSchema = new Schema(
 )
 // indexes
 postSchema.index({ author: 1, createdAt: -1 })
-postSchema.index({ status: 1, published: -1 })
+postSchema.index({ status: 1, publishedAt: -1 })
 postSchema.index({ slug: 1 })
 postSchema.index({ tags: 1 })
 postSchema.index({ categories: 1 })
@@ -139,6 +145,7 @@ postSchema.methods.addComment = function (userId, content) {
     user: userId,
     content: content
   })
+  return this.save()
 }
 postSchema.virtual('likeCount').get(function () {
   return this.likes.length
