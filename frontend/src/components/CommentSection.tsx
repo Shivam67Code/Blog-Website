@@ -4,7 +4,7 @@ import { commentsAPI } from "../services/api";
 import { useAuth } from "../features/auth/AuthContext";
 import { toast } from "sonner";
 import { format } from "date-fns";
-import { Send, Heart, Reply, Edit, Trash2, MoreVertical } from "lucide-react";
+import { Send, Heart, Reply, Edit, Trash2 } from "lucide-react";
 import Loader from "./Loader";
 
 export default function CommentSection({ postId }: { postId: string }) {
