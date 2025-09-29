@@ -20,6 +20,7 @@ import userRouter from './routes/user.routes.js'
 import { defaultRoute, healthRoute } from './routes/default.routes.js';
 import { log } from 'console';
 app.use("/api/v1/users", userRouter)
+
 app.get('/health', healthRoute)
 app.get("/", defaultRoute)
 app.use("/api/v1/posts", postRouter)
