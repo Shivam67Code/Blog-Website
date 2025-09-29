@@ -24,7 +24,7 @@ export const userAPI = {
   refreshToken: () => api.post("/users/refresh-token"),
   forgotPassword: (email: string) => api.post("/users/forgot-password", { email }),
   resetPassword: (token: string, newPassword: string, confirmPassword: string) =>
-    api.post(`/users/reset-password/${token}`, { newPassword, confirmPassword }),
+    api.post(`/users/reset-password/${token}`, { token,newPassword, confirmPassword }),
 
   // User management
   getCurrentUser: () => api.get("/users/current-user"),

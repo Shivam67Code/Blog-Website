@@ -37,6 +37,7 @@ export default function ForgotPassword() {
 
     setSubmitting(true);
     try {
+      console.log("RESET PAYLOAD:", { token, newPassword, confirmPassword });
       await userAPI.resetPassword(token, newPassword, confirmPassword);
       toast.success("Password reset successfully! You can now login.");
       setStep("email");

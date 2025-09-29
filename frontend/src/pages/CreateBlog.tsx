@@ -3,7 +3,7 @@ import { postsAPI } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import Loader from "../components/Loader";
-import { Image, Tag, X } from "lucide-react";
+import { Image, Tag, X, FileText, Sparkles } from "lucide-react";
 
 export default function CreateBlog() {
   const [title, setTitle] = useState("");
@@ -54,54 +54,84 @@ export default function CreateBlog() {
     }
   };
 
-  return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Create New Blog Post</h1>
+  const tagArray = tags.split(",").filter(t => t.trim()).map(t => t.trim());
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Title */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Title *
-          </label>
-          <input
-            type="text"
-            className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Enter your blog post title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 py-6 sm:py-12 px-3 sm:px-4">
+      <div className="max-w-5xl mx-auto">
+        {/* Header */}
+        <div className="mb-8 sm:mb-12">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="p-2 bg-slate-900 rounded-lg">
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            </div>
+            <h1 className="text-2xl sm:text-4xl font-bold text-slate-900">Create New Post</h1>
+          </div>
+          <p className="text-sm sm:text-base text-slate-600 ml-0 sm:ml-14">Share your thoughts with the world</p>
         </div>
 
-        {/* Featured Image */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Featured Image
-          </label>
-          {imagePreview ? (
-            <div className="relative">
-              <img
-                src={imagePreview}
-                alt="Preview"
-                className="w-full h-64 object-cover rounded-lg"
-              />
-              <button
-                type="button"
-                onClick={removeImage}
-                className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
-              >
-                <X size={16} />
-              </button>
+        <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+          {/* Main Content Card */}
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            {/* Title Section */}
+            <div className="p-4 sm:p-8 border-b border-slate-100">
+              <div className="flex items-start gap-3 mb-3">
+                <FileText className="w-5 h-5 text-slate-400 mt-1 flex-shrink-0" />
+                <div className="flex-1">
+                  <label className="block text-sm font-semibold text-slate-900 mb-2">
+                    Post Title
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full text-xl sm:text-2xl font-bold border-0 px-0 py-2 focus:outline-none focus:ring-0 text-slate-900 placeholder:text-slate-300"
+                    placeholder="Give your post an engaging title..."
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
             </div>
-          ) : (
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-              <Image className="mx-auto h-12 w-12 text-gray-400" />
-              <div className="mt-4">
-                <label htmlFor="featured-image" className="cursor-pointer">
-                  <span className="mt-2 block text-sm font-medium text-gray-900">
-                    Upload a featured image
-                  </span>
+
+            {/* Featured Image Section */}
+            <div className="p-4 sm:p-8 border-b border-slate-100">
+              <div className="flex items-center gap-3 mb-4">
+                <Image className="w-5 h-5 text-slate-400" />
+                <label className="block text-sm font-semibold text-slate-900">
+                  Featured Image
+                </label>
+              </div>
+              
+              {imagePreview ? (
+                <div className="relative group">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="w-full h-56 sm:h-80 object-cover rounded-xl"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center">
+                    <button
+                      type="button"
+                      onClick={removeImage}
+                      className="bg-white text-slate-900 rounded-full p-3 hover:bg-slate-100 transition-colors shadow-xl"
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <label htmlFor="featured-image" className="block cursor-pointer">
+                  <div className="border-2 border-dashed border-slate-300 rounded-xl p-8 sm:p-12 text-center hover:border-slate-400 hover:bg-slate-50 transition-all">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-100 rounded-full mb-4">
+                      <Image className="w-8 h-8 text-slate-400" />
+                    </div>
+                    <p className="text-sm font-medium text-slate-900 mb-1">
+                      Click to upload cover image
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      PNG, JPG or GIF up to 10MB
+                    </p>
+                  </div>
                   <input
                     id="featured-image"
                     type="file"
@@ -110,66 +140,83 @@ export default function CreateBlog() {
                     className="sr-only"
                   />
                 </label>
-                <p className="mt-1 text-xs text-gray-500">
-                  PNG, JPG, GIF up to 10MB
-                </p>
+              )}
+            </div>
+
+            {/* Tags Section */}
+            <div className="p-4 sm:p-8 border-b border-slate-100">
+              <div className="flex items-center gap-3 mb-4">
+                <Tag className="w-5 h-5 text-slate-400" />
+                <label className="block text-sm font-semibold text-slate-900">
+                  Tags
+                </label>
+              </div>
+              
+              <input
+                type="text"
+                className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent text-sm text-slate-900 placeholder:text-slate-400"
+                placeholder="javascript, react, web development"
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+              />
+              
+              {tagArray.length > 0 && tagArray[0] && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {tagArray.map((tag, idx) => (
+                    <span
+                      key={idx}
+                      className="inline-flex items-center gap-1 px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-medium"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Content Section */}
+            <div className="p-4 sm:p-8">
+              <label className="block text-sm font-semibold text-slate-900 mb-4">
+                Content
+              </label>
+              <textarea
+                className="w-full min-h-[400px] sm:min-h-[500px] border-0 px-0 py-0 focus:outline-none focus:ring-0 text-base sm:text-lg text-slate-900 placeholder:text-slate-300 leading-relaxed resize-none"
+                placeholder="Start writing your story..."
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                required
+              />
+              <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-4">
+                <span className="text-xs text-slate-500">
+                  {content.length} characters
+                </span>
+                <span className="text-xs text-slate-500">
+                  ~{Math.ceil(content.split(/\s+/).filter(w => w).length / 200)} min read
+                </span>
               </div>
             </div>
-          )}
-        </div>
-
-        {/* Tags */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Tags
-          </label>
-          <div className="flex items-center gap-2">
-            <Tag className="h-5 w-5 text-gray-400" />
-            <input
-              type="text"
-              className="flex-1 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Enter tags separated by commas (e.g., react, javascript, tutorial)"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-            />
           </div>
-          <p className="mt-1 text-sm text-gray-500">
-            Separate multiple tags with commas
-          </p>
-        </div>
 
-        {/* Content */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Content *
-          </label>
-          <textarea
-            className="w-full border border-gray-300 rounded-lg px-4 py-3 min-h-[400px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Write your blog post content here..."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
-          />
-        </div>
-
-        {/* Submit Button */}
-        <div className="flex gap-4">
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-            disabled={submitting}
-          >
-            {submitting ? <Loader /> : "Create Post"}
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate("/")}
-            className="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-300 transition-colors"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
+          {/* Action Buttons */}
+          <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="px-6 py-3 text-slate-600 hover:text-slate-900 font-medium transition-colors text-center"
+            >
+              Cancel
+            </button>
+            
+            <button
+              type="submit"
+              className="w-full sm:w-auto px-8 py-3 bg-slate-900 text-white rounded-xl hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium shadow-sm"
+              disabled={submitting}
+            >
+              {submitting ? <Loader /> : "Publish Post"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

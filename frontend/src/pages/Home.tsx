@@ -51,10 +51,13 @@ export default function Home() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-4">Latest Blog Posts</h1>
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-4">
+          <h1 className="text-3xl font-bold tracking-tight">Latest Blog Posts</h1>
+          <p className="text-gray-500">Explore, search and filter posts</p>
+        </div>
 
         {/* Search and Filter */}
-        <form onSubmit={handleSearch} className="flex gap-4 mb-6">
+        <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-3 md:gap-4 mb-6">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             <input
@@ -62,7 +65,7 @@ export default function Home() {
               placeholder="Search posts..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="input pl-10"
             />
           </div>
           <input
@@ -70,11 +73,11 @@ export default function Home() {
             placeholder="Filter by tags (comma separated)"
             value={tags}
             onChange={(e) => setTags(e.target.value)}
-            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="input"
           />
           <button
             type="submit"
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="btn-primary"
           >
             Search
           </button>
@@ -104,7 +107,7 @@ export default function Home() {
           {totalPages > 1 && (
             <div className="flex justify-center mt-8 gap-2">
               <button
-                className="p-2 rounded disabled:opacity-50 hover:bg-gray-100 transition-colors"
+                className="btn-outline p-2"
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
               >
@@ -114,7 +117,7 @@ export default function Home() {
                 Page {page} of {totalPages}
               </span>
               <button
-                className="p-2 rounded disabled:opacity-50 hover:bg-gray-100 transition-colors"
+                className="btn-outline p-2"
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
               >

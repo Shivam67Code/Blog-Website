@@ -7,11 +7,14 @@ import { useAuth } from "../features/auth/AuthContext";
 import { postsAPI } from "../services/api";
 import { useState } from "react";
 import { toast } from "sonner";
+import ConfirmationModal from "./ConfirmationModal";
 
 export default function PostCard({ post }: { post: Post }) {
   const { user } = useAuth();
   const [isLiked, setIsLiked] = useState(post.likes.includes(user?._id || ""));
   const [likesCount, setLikesCount] = useState(post.likes.length);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const handleLike = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -28,6 +31,20 @@ export default function PostCard({ post }: { post: Post }) {
       setLikesCount(res.data.data.likesCount);
     } catch (error) {
       console.error("Error toggling like:", error);
+    }
+  };
+
+  const handleDelete = async () => {
+    setDeleting(true);
+    try {
+      await postsAPI.deletePost(post._id);
+      toast.success("Post deleted!");
+      // refresh or update state as needed
+    } catch (e) {
+      toast.error("Failed to delete post");
+    } finally {
+      setDeleting(false);
+      setShowDeleteModal(false);
     }
   };
 
@@ -88,18 +105,38 @@ export default function PostCard({ post }: { post: Post }) {
             </span>
           </div>
 
-          <button
-            onClick={handleLike}
-            className={`flex items-center gap-1 px-2 py-1 rounded-full transition-colors ${isLiked
-                ? "text-red-500 bg-red-50"
-                : "text-gray-500 hover:text-red-500 hover:bg-red-50"
-              }`}
-          >
-            <Heart size={16} className={isLiked ? "fill-current" : ""} />
-            {likesCount}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleLike}
+              className={`flex items-center gap-1 px-2 py-1 rounded-full transition-colors ${isLiked
+                  ? "text-red-500 bg-red-50"
+                  : "text-gray-500 hover:text-red-500 hover:bg-red-50"
+                }`}
+            >
+              <Heart size={16} className={isLiked ? "fill-current" : ""} />
+              {likesCount}
+            </button>
+
+            <button
+              onClick={() => setShowDeleteModal(true)}
+              className="text-red-600 hover:underline"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
+
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        title="Delete Post"
+        message="Are you sure you want to delete this post? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={handleDelete}
+        onCancel={() => setShowDeleteModal(false)}
+        loading={deleting}
+      />
     </motion.div>
   );
 }

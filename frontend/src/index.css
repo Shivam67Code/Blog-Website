@@ -1,5 +1,159 @@
 @import "tailwindcss";
 
+
+
+/* Typography variables */
+:root {
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --accent: #2563eb; /* blue-600 */
+}
+
+/* Base typography */
+html,
+body,
+#root {
+  height: 100%;
+}
+
 body {
-  @apply bg-gray-50 text-gray-900;
+  font-family: var(--font-sans);
+  color: #0f172a; /* slate-900 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8fafc; /* subtle bg */
+}
+
+/* Headings use serif for a nice editorial look */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+/* Optional nicer defaults for paragraphs and small text */
+p,
+span,
+li,
+a,
+input,
+button {
+  font-family: var(--font-sans);
+}
+
+/* Floating Create Post button */
+.floating-create-btn {
+  position: fixed;
+  right: 1rem;
+  bottom: 1.125rem; /* 18px */
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 9999px;
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18), 0 2px 6px rgba(2, 6, 23, 0.08);
+  font-weight: 600;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    opacity 0.12s ease;
+  backdrop-filter: blur(4px);
+}
+
+/* smaller on very small screens */
+@media (max-width: 420px) {
+  .floating-create-btn {
+    padding: 0.5rem 0.7rem;
+    right: 0.6rem;
+    bottom: 0.9rem;
+  }
+}
+
+/* hover / active */
+.floating-create-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.18);
+}
+.floating-create-btn:active {
+  transform: translateY(0);
+}
+
+/* Utility to hide any old navbar create-button if present (defensive) */
+.hide-create-btn {
+  display: none !important;
+}
+
+/* Global typography scaling and smooth rendering */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+/* Container utilities */
+.container-responsive {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Card styles */
+.card {
+  @apply bg-white/90 backdrop-blur shadow-sm hover:shadow-md transition-shadow rounded-xl border border-gray-100;
+}
+
+.card-hover {
+  @apply hover:-translate-y-0.5 hover:shadow-lg transition-transform;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 active:bg-gray-400 transition-colors;
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors;
+}
+
+/* Input styles */
+.input {
+  @apply w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white placeholder:text-gray-400;
+}
+
+.textarea {
+  @apply w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white placeholder:text-gray-400 min-h-[140px];
+}
+
+/* Section spacing */
+.section {
+  @apply py-6 sm:py-8 lg:py-10;
+}
+
+/* Fancy gradients */
+.gradient-blue {
+  background: linear-gradient(135deg, #1d4ed8 0%, #0ea5e9 50%, #22d3ee 100%);
+}
+
+.gradient-subtle {
+  background: radial-gradient(1000px 600px at 10% -10%, rgba(59, 130, 246, 0.08), transparent),
+    radial-gradient(800px 500px at 90% 0%, rgba(99, 102, 241, 0.08), transparent);
+}
+
+.alan-sans-title {
+  font-family: "Alan Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
 }

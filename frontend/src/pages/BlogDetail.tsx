@@ -8,6 +8,7 @@ import { useAuth } from "../features/auth/AuthContext";
 import { toast } from "sonner";
 import { Pencil, Trash2, Heart, Tag, User, Calendar } from "lucide-react";
 import CommentSection from "../components/CommentSection";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 export default function BlogDetail() {
   const { id } = useParams();
@@ -17,6 +18,8 @@ export default function BlogDetail() {
   const [likesCount, setLikesCount] = useState(0);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const fetchPost = async () => {
     setLoading(true);
@@ -40,13 +43,16 @@ export default function BlogDetail() {
   }, [id]);
 
   const handleDelete = async () => {
-    if (!window.confirm("Delete this post?")) return;
+    setDeleting(true);
     try {
       await postsAPI.deletePost(id!);
       toast.success("Post deleted successfully");
       navigate("/");
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Failed to delete post");
+    } finally {
+      setDeleting(false);
+      setShowDeleteModal(false);
     }
   };
 
@@ -74,7 +80,7 @@ export default function BlogDetail() {
     <div className="max-w-4xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+        <h1 className="text-4xl font-bold mb-4 alan-sans-title">{post.title}</h1>
 
         {/* Author and Date */}
         <div className="flex items-center gap-4 text-gray-600 mb-4">
@@ -130,7 +136,7 @@ export default function BlogDetail() {
               </button>
               <button
                 className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors"
-                onClick={handleDelete}
+                onClick={() => setShowDeleteModal(true)}
               >
                 <Trash2 size={16} /> Delete
               </button>
@@ -159,6 +165,20 @@ export default function BlogDetail() {
 
       {/* Comments Section */}
       <CommentSection postId={post._id} />
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <ConfirmationModal
+          isOpen={showDeleteModal}
+          onConfirm={handleDelete}
+          onCancel={() => setShowDeleteModal(false)}
+          title="Delete Post"
+          message="Are you sure you want to delete this post? This action cannot be undone."
+          confirmText={deleting ? "Deleting..." : "Delete"}
+          cancelText="Cancel"
+          loading={deleting}
+        />
+      )}
     </div>
   );
 }
