@@ -36,7 +36,7 @@ router.route("/register").post(
 router.route("/login").post(loginUser)
 router.route("/refresh-token").post(refreshAccessToken)
 router.route("/forgot-password").post(forgotPassword)
-router.route("/reset-password/:token").post(resetPassword)
+router.route("/reset-password").post(resetPassword)
 // PROTECTED ROUTES (Authentication required in these routes)
 router.route("/logout").post(verifyJWT, logOutUser)
 router.route("/change-password").post(verifyJWT, changePassword)
@@ -47,5 +47,6 @@ router.route("/update-cover").patch(verifyJWT, upload.single("coverImage"), upda
 router.route("/username-profile/:username").get(verifyJWT, getUserProfileByUsername)
 router.route("/delete-account").delete(verifyJWT, deleteAccount)
 router.route("/all-users").get(verifyJWT, getAllUsers)
+router.get("/test", (req, res) => res.json({ ok: true }));
 
 export default router

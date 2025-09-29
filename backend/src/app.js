@@ -16,12 +16,13 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 // routes
-import userRouter from './routes/user.routes.js'
+import userRouter from "./routes/user.routes.js";
 import { defaultRoute, healthRoute } from './routes/default.routes.js';
 import { log } from 'console';
-app.use("/api/v1/users", userRouter)
+app.use("/api/v1/users", userRouter);
+console.log("userRouter mounted at /api/v1/users");
 
-app.get('/health', healthRoute)
+// app.get('/health', healthRoute)
 app.get("/", defaultRoute)
 app.use("/api/v1/posts", postRouter)
 app.use("/api/v1/comments", commentRouter)
