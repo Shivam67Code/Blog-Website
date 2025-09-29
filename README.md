@@ -1,8 +1,8 @@
-# Blog Website - Full Stack Application
+## 📜Blog Website - Full Stack Application
 
 A modern, feature-rich blog website built with React (TypeScript) frontend and Node.js/Express backend with MongoDB database.
 
-## 🚀 Features
+##  Features
 
 ### Authentication & User Management
 - **User Registration** with avatar upload
@@ -80,7 +80,7 @@ Blog-Website/
 └── README.md
 ```
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - Node.js (v16 or higher)
@@ -105,7 +105,7 @@ Blog-Website/
    ```env
    NODE_ENV=development
    PORT=8000
-   MONGODB_URI=mongodb://localhost:27017/blog-website
+   MONGODB_URI=your_mongo_uri
    JWT_SECRET=your_jwt_secret_key
    REFRESH_TOKEN_SECRET=your_refresh_token_secret
    CORS_ORIGIN=http://localhost:5173
@@ -118,7 +118,7 @@ Blog-Website/
 
 4. **Start the backend server:**
    ```bash
-   npm start
+   npm run dev
    ```
 
 ### Frontend Setup
@@ -162,7 +162,7 @@ Blog-Website/
 - `DELETE /api/v1/comments/:id` - Delete comment (protected)
 - `POST /api/v1/comments/:id/like` - Toggle like on comment (protected)
 
-## 🎨 Key Features Implementation
+##  Key Features Implementation
 
 ### 1. Authentication System
 - JWT-based authentication with refresh tokens
@@ -213,19 +213,6 @@ cd frontend
 npm run build
 ```
 
-## 🚀 Deployment
-
-### Backend Deployment
-- Deploy to platforms like Heroku, Railway, or DigitalOcean
-- Set up MongoDB Atlas for database
-- Configure environment variables
-- Set up Cloudinary for image storage
-
-### Frontend Deployment
-- Deploy to Vercel, Netlify, or similar platforms
-- Update API base URL in production
-- Configure CORS settings
-
 ## 📝 Contributing
 
 1. Fork the repository
@@ -233,10 +220,6 @@ npm run build
 3. Make your changes
 4. Test thoroughly
 5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License.
 
 ## 🤝 Support
 
