@@ -9,12 +9,14 @@ const router = Router();
 // route is /api/v1/posts/${route}
 // PUBLIC ROUTES
 router.route("/").get(getAllPosts)
-router.route("/:postId").get(getPostById)
 router.route("/author/:authorId").get(getPostsByAuthor)
 
-// PROTECTED ROUTES
+// PROTECTED ROUTES - Specific routes must come before parameterized routes
 router.route("/create").post(verifyJWT, upload.single("featuredImage"), createPost)
 router.route("/my-posts").get(verifyJWT, getMyPosts)
+
+// Parameterized routes must come last
+router.route("/:postId").get(getPostById)
 router.route("/:postId/update").patch(verifyJWT, upload.single("featuredImage"), updatePost)
 router.route("/:postId/delete").delete(verifyJWT, deletePost)
 router.route("/:postId/like").patch(verifyJWT, togglePostLike);
