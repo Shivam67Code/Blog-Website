@@ -96,10 +96,10 @@ export default function EditProfileModal({ isOpen, onClose }: EditProfileModalPr
     try {
       const res = await userAPI.updateAccount({ fullName, email });
       updateUser(res.data.data);
-      toast.success("Profile updated successfully!");
+      toast.success("Profile updated successfully!", { duration: 1500 });
       onClose();
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to update profile");
+      toast.error(error.response?.data?.message || "Failed to update profile", { duration: 1500 });
     } finally {
       setLoading(false);
     }
@@ -112,11 +112,11 @@ export default function EditProfileModal({ isOpen, onClose }: EditProfileModalPr
     try {
       const res = await userAPI.updateAvatar(avatarFile);
       updateUser(res.data.data);
-      toast.success("Avatar updated successfully!");
+      toast.success("Avatar updated successfully!", { duration: 1500 });
       setAvatarFile(null);
       setAvatarPreview(null);
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to update avatar");
+      toast.error(error.response?.data?.message || "Failed to update avatar", { duration: 1500 });
     } finally {
       setLoading(false);
     }
@@ -129,11 +129,11 @@ export default function EditProfileModal({ isOpen, onClose }: EditProfileModalPr
     try {
       const res = await userAPI.updateCoverImage(coverFile);
       updateUser(res.data.data);
-      toast.success("Cover image updated successfully!");
+      toast.success("Cover image updated successfully!", { duration: 1500 });
       setCoverFile(null);
       setCoverPreview(null);
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to update cover image");
+      toast.error(error.response?.data?.message || "Failed to update cover image", { duration: 1500 });
     } finally {
       setLoading(false);
     }
@@ -143,20 +143,20 @@ export default function EditProfileModal({ isOpen, onClose }: EditProfileModalPr
     e.preventDefault();
 
     if (newPassword !== confirmPassword) {
-      toast.error("New passwords do not match");
+      toast.error("New passwords do not match", { duration: 1500 });
       return;
     }
 
     setLoading(true);
     try {
       await userAPI.changePassword({ oldPassword, newPassword, confirmPassword });
-      toast.success("Password changed successfully!");
+      toast.success("Password changed successfully!", { duration: 1500 });
       setOldPassword("");
       setNewPassword("");
       setConfirmPassword("");
       setHasPasswordChanges(false);
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to change password");
+      toast.error(error.response?.data?.message || "Failed to change password", { duration: 1500 });
     } finally {
       setLoading(false);
     }
@@ -177,7 +177,7 @@ export default function EditProfileModal({ isOpen, onClose }: EditProfileModalPr
           updates.push("Profile information");
           successCount++;
         } catch (error: any) {
-          toast.error(`Failed to update profile: ${error.response?.data?.message || "Unknown error"}`);
+          toast.error(`Failed to update profile: ${error.response?.data?.message || "Unknown error"}`, { duration: 1500 });
         }
       }
 
@@ -192,7 +192,7 @@ export default function EditProfileModal({ isOpen, onClose }: EditProfileModalPr
           setAvatarPreview(null);
           setHasAvatarChanges(false);
         } catch (error: any) {
-          toast.error(`Failed to update avatar: ${error.response?.data?.message || "Unknown error"}`);
+          toast.error(`Failed to update avatar: ${error.response?.data?.message || "Unknown error"}`, { duration: 1500 });
         }
       }
 
@@ -207,14 +207,14 @@ export default function EditProfileModal({ isOpen, onClose }: EditProfileModalPr
           setCoverPreview(null);
           setHasCoverChanges(false);
         } catch (error: any) {
-          toast.error(`Failed to update cover image: ${error.response?.data?.message || "Unknown error"}`);
+          toast.error(`Failed to update cover image: ${error.response?.data?.message || "Unknown error"}`, { duration: 1500 });
         }
       }
 
       // Update password
       if (hasPasswordChanges) {
         if (newPassword !== confirmPassword) {
-          toast.error("New passwords do not match");
+          toast.error("New passwords do not match", { duration: 1500 });
           return;
         }
         try {
@@ -226,19 +226,19 @@ export default function EditProfileModal({ isOpen, onClose }: EditProfileModalPr
           setConfirmPassword("");
           setHasPasswordChanges(false);
         } catch (error: any) {
-          toast.error(`Failed to update password: ${error.response?.data?.message || "Unknown error"}`);
+          toast.error(`Failed to update password: ${error.response?.data?.message || "Unknown error"}`, { duration: 1500 });
         }
       }
 
       if (successCount > 0) {
-        toast.success(`Successfully updated: ${updates.join(", ")}`);
+        toast.success(`Successfully updated: ${updates.join(", ")}`, { duration: 1500 });
         setHasProfileChanges(false);
         if (successCount === changeCount) {
           onClose();
         }
       }
     } catch (error: any) {
-      toast.error("Failed to update some changes");
+      toast.error("Failed to update some changes", { duration: 1500 });
     } finally {
       setLoading(false);
     }

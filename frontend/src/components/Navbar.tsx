@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../features/auth/AuthContext";
-import {  LogOut, Home, PenSquare, Menu, X } from "lucide-react";
+import { LogOut, Home, PenSquare, Menu, X, User } from "lucide-react";
 import ConfirmationModal from "./ConfirmationModal";
 import { useState } from "react";
 
@@ -15,7 +15,7 @@ export default function Navbar() {
     setLoggingOut(true);
     try {
       await logout();
-      navigate("/");
+      navigate("/login");
     } finally {
       setLoggingOut(false);
       setShowLogoutModal(false);
@@ -37,8 +37,28 @@ export default function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-6">
+              {/* Home button */}
+              <Link
+                to="/"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 transition-colors text-slate-700"
+                aria-label="Home"
+              >
+                <Home size={16} />
+                <span className="text-sm">Home</span>
+              </Link>
+
               {user ? (
                 <>
+                  {/* Account button */}
+                  <Link
+                    to="/profile"
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-50 transition-colors text-slate-700"
+                    aria-label="Account"
+                  >
+                    <User size={16} />
+                    <span className="text-sm">Account</span>
+                  </Link>
+
                   <Link
                     to="/create"
                     className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors font-medium text-sm"
@@ -107,6 +127,16 @@ export default function Navbar() {
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-slate-200 bg-white">
             <div className="px-4 py-4 space-y-3">
+              {/* Home - visible to everyone */}
+              <Link
+                to="/"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors"
+              >
+                <Home size={20} />
+                <span>Home</span>
+              </Link>
+
               {user ? (
                 <>
                   <Link
@@ -128,6 +158,16 @@ export default function Navbar() {
                       </span>
                       <span className="text-sm text-slate-500">@{user.username}</span>
                     </div>
+                  </Link>
+
+                  {/* Account link (text-based) */}
+                  <Link
+                    to="/profile"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors"
+                  >
+                    <User size={20} />
+                    <span>Account</span>
                   </Link>
 
                   <Link

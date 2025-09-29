@@ -32,10 +32,10 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
 
     try {
       await userAPI.forgotPassword(resetEmail);
-      toast.success("Password reset token sent to your email");
+      toast.success("Password reset token sent to your email", { duration: 2000 });
       setResetStep("token");
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to send reset token");
+      toast.error(error.response?.data?.message || "Failed to send reset token", { duration: 2000 });
     } finally {
       setLoading(false);
     }
@@ -52,14 +52,14 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
     setLoading(true);
     try {
       await userAPI.resetPassword(resetToken, newPassword, confirmPassword);
-      toast.success("Password reset successfully!");
+      toast.success("Password reset successfully!", { duration: 2000 });
       setResetEmail("");
       setResetToken("");
       setNewPassword("");
       setConfirmPassword("");
       setResetStep("email");
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to reset password");
+      toast.error(error.response?.data?.message || "Failed to reset password", { duration: 2000 });
     } finally {
       setLoading(false);
     }
@@ -67,18 +67,18 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
 
   const handleDeleteAccount = async () => {
     if (!deletePassword) {
-      toast.error("Please enter your password to confirm deletion");
+      toast.error("Please enter your password to confirm deletion", { duration: 2000 });
       return;
     }
 
     setLoading(true);
     try {
       await userAPI.deleteAccount(deletePassword);
-      toast.success("Account deleted successfully");
+      toast.success("Account deleted successfully", { duration: 2000 });
       logout();
       onClose();
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to delete account");
+      toast.error(error.response?.data?.message || "Failed to delete account", { duration: 2000 });
     } finally {
       setLoading(false);
     }

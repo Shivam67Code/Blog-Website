@@ -24,7 +24,7 @@ export default function CommentSection({ postId }: { postId: string }) {
       setComments(res.data.data.comments);
     } catch (error) {
       console.error("Error fetching comments:", error);
-      toast.error("Failed to load comments");
+      toast.error("Failed to load comments", { duration: 2000 });
     } finally {
       setLoading(false);
     }
@@ -47,9 +47,9 @@ export default function CommentSection({ postId }: { postId: string }) {
       setContent("");
       setReplyingTo(null);
       fetchComments();
-      toast.success("Comment added!");
+      toast.success("Comment added!", { duration: 2000 });
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to add comment");
+      toast.error(error.response?.data?.message || "Failed to add comment", { duration: 2000 });
     } finally {
       setSubmitting(false);
     }
@@ -62,9 +62,9 @@ export default function CommentSection({ postId }: { postId: string }) {
       setEditingComment(null);
       setEditContent("");
       fetchComments();
-      toast.success("Comment updated!");
+      toast.success("Comment updated!", { duration: 2000 });
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to update comment");
+      toast.error(error.response?.data?.message || "Failed to update comment", { duration: 2000 });
     }
   };
 
@@ -73,15 +73,15 @@ export default function CommentSection({ postId }: { postId: string }) {
     try {
       await commentsAPI.deleteComment(commentId);
       fetchComments();
-      toast.success("Comment deleted!");
+      toast.success("Comment deleted!", { duration: 2000 });
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to delete comment");
+      toast.error(error.response?.data?.message || "Failed to delete comment", { duration: 2000 });
     }
   };
 
   const handleLike = async (commentId: string) => {
     if (!user) {
-      toast.error("Please login to like comments");
+      toast.error("Please login to like comments", { duration: 2000 });
       return;
     }
     try {
