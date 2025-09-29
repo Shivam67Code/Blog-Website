@@ -1,4 +1,4 @@
-# Blog Website - Full Stack Application
+#📝 Blog Website - Full Stack Application
 
 A modern, feature-rich blog website built with React (TypeScript) frontend and Node.js/Express backend with MongoDB database.
 
