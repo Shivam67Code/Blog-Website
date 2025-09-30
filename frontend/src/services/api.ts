@@ -47,7 +47,7 @@ export const userAPI = {
     formData.append("coverImage", coverImage);
     return api.patch("/users/update-cover", formData);
   },
-  getUserProfile: (username: string) => api.get(`/users/username-profile/${username}`),
+  getUserProfile: () => api.get(`/users/current-user`),
   deleteAccount: (password: string) => api.delete("/users/delete-account", { data: { password } }),
   getAllUsers: () => api.get("/users/all-users"),
 };
