@@ -2,6 +2,9 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "https://blogwebsite-4wem.onrender.com/api/v1",
+   headers: {
+    "Content-Type": "application/json",
+  },
   withCredentials: true,
 });
 
