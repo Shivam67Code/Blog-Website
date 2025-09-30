@@ -34,7 +34,7 @@ export default function NotFound() {
       {ripples.map(ripple => (
         <div
           key={ripple.id}
-          className="absolute w-32 h-32 rounded-full bg-red-200 pointer-events-none"
+          className="absolute w-32 h-32 rounded-full bg-red-500 pointer-events-none"
           style={{
             left: `${ripple.x}%`,
             top: `${ripple.y}%`,
@@ -103,13 +103,13 @@ export default function NotFound() {
               style={{ animationDelay: '0.2s' }}
             >4</span>
           </h1>
-          <div className="absolute inset-0 text-9xl font-bold text-gray-300 -z-10 blur-md opacity-50">
+          <div className="absolute inset-0 text-9xl font-bold text-red-500 -z-10 blur-md opacity-50">
             404
           </div>
         </div>
 
         <h2 
-          className="text-3xl font-semibold text-gray-900 mb-4 transition-all duration-1000 delay-200"
+          className="text-3xl font-semibold text-red-900 mb-4 transition-all duration-1000 delay-200"
           style={{
             opacity: mounted ? 1 : 0,
             transform: mounted ? 'translateY(0)' : 'translateY(-20px)'

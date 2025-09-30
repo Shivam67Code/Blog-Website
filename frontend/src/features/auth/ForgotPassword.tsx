@@ -16,9 +16,16 @@ export default function ForgotPassword() {
 
   const handleEmail = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const emailTrim = email.trim();
+    if (!emailTrim) {
+      toast.error("Email is required");
+      return;
+    }
+
     setSubmitting(true);
     try {
-      await userAPI.forgotPassword(email);
+      await userAPI.forgotPassword(emailTrim);
       toast.success("Password reset token sent to your email");
       setStep("reset");
     } catch (error: any) {
@@ -31,15 +38,24 @@ export default function ForgotPassword() {
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (newPassword !== confirmPassword) {
+    const tokenTrim = token.trim();
+    const newPwd = newPassword;
+    const confirmPwd = confirmPassword;
+
+    if (!tokenTrim || !newPwd || !confirmPwd) {
+      toast.error("All fields are required");
+      return;
+    }
+
+    if (newPwd !== confirmPwd) {
       toast.error("Passwords do not match");
       return;
     }
 
     setSubmitting(true);
     try {
-      console.log("RESET PAYLOAD:", { token, newPassword, confirmPassword });
-      await userAPI.resetPassword(token, newPassword, confirmPassword);
+      console.log("RESET PAYLOAD:", { token: tokenTrim, newPassword: newPwd, confirmPassword: confirmPwd });
+      await userAPI.resetPassword(tokenTrim, newPwd, confirmPwd);
       toast.success("Password reset successfully! You can now login.");
       setStep("email");
       setEmail("");
@@ -78,7 +94,7 @@ export default function ForgotPassword() {
                 <span>Email</span>
               </div>
 
-              <button className="enter" type="submit" disabled={submitting}>
+              <button className="enter" type="submit" disabled={submitting || !email.trim()}>
                 {submitting ? <Loader /> : "Send Token"}
               </button>
             </form>
@@ -117,7 +133,16 @@ export default function ForgotPassword() {
                 <span>Confirm</span>
               </div>
 
-              <button className="enter" type="submit" disabled={submitting}>
+              <button
+                className="enter"
+                type="submit"
+                disabled={
+                  submitting ||
+                  !token.trim() ||
+                  !newPassword.trim() ||
+                  !confirmPassword.trim()
+                }
+              >
                 {submitting ? <Loader /> : "Reset Password"}
               </button>
             </form>

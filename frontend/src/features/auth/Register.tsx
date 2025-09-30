@@ -40,7 +40,6 @@ export default function Register() {
               required
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              autoComplete="name"
             />
             <span>Full Name</span>
           </div>
@@ -51,7 +50,6 @@ export default function Register() {
               required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              autoComplete="username"
             />
             <span>Username</span>
           </div>
@@ -62,7 +60,6 @@ export default function Register() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
             />
             <span>Email</span>
           </div>
@@ -73,7 +70,6 @@ export default function Register() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              autoComplete="new-password"
             />
             <span>Password</span>
           </div>
@@ -83,16 +79,17 @@ export default function Register() {
               type="file"
               accept="image/*"
               onChange={(e) => setAvatar(e.target.files?.[0] || null)}
+              className="file-input"
               required
             />
-            <span>Avatar</span>
+            {/* <span style={{ left: 0, marginLeft: 10 }}>Avatar</span> */}
           </div>
 
           <button className="enter" type="submit" disabled={loading}>
             {loading ? <Loader /> : "Create"}
           </button>
 
-          <div style={{ display: "flex", gap: 12, marginTop: 6 }}>
+          <div style={{ marginTop: 8 }}>
             <Link to="/login" style={{ fontSize: 12, color: "#000" }}>
               Already have an account? Login
             </Link>
@@ -118,23 +115,24 @@ const StyledWrapper = styled.div`
     justify-content: center;
     align-items: center;
     min-height: 450px;
-    width: 360px;
+    width: 300px; /* match login width */
     flex-direction: column;
-    gap: 20px;
-    background: #eaeaea;
+    gap: 28px;
+    background: #e3e3e3;
     box-shadow: 16px 16px 32px #c8c8c8, -16px -16px 32px #fefefe;
     border-radius: 8px;
-    padding: 24px;
+    padding: 20px;
   }
 
   .inputBox {
     position: relative;
-    width: 100%;
+    width: 250px; /* match login input width */
   }
 
   .inputBox input[type="text"],
   .inputBox input[type="email"],
-  .inputBox input[type="password"] {
+  .inputBox input[type="password"],
+  .inputBox .file-input {
     width: 100%;
     padding: 10px;
     outline: none;
@@ -146,15 +144,12 @@ const StyledWrapper = styled.div`
     border-bottom: 2px solid #000;
     transition: 0.1s;
     border-bottom-left-radius: 8px;
+    box-sizing: border-box;
   }
 
-  /* file input styled smaller but consistent */
-  .inputBox.fileBox input[type="file"] {
-    width: 100%;
-    padding: 8px 6px;
+  /* keep native file input visible and clickable; style lightly to match other inputs */
+  .inputBox .file-input {
     background: transparent;
-    border: none;
-    cursor: pointer;
   }
 
   .inputBox span {
@@ -174,9 +169,8 @@ const StyledWrapper = styled.div`
   }
 
   .inputBox input:valid ~ span,
-  .inputBox input:focus ~ span,
-  .inputBox.fileBox input:focus ~ span {
-    transform: translateX(170px) translateY(-15px);
+  .inputBox input:focus ~ span {
+    transform: translateX(113px) translateY(-15px);
     font-size: 0.8em;
     padding: 5px 10px;
     background: #000;
@@ -186,27 +180,24 @@ const StyledWrapper = styled.div`
   }
 
   .inputBox input:valid,
-  .inputBox input:focus {
+  .inputBox input:focus,
+  .inputBox .file-input:focus {
     border: 2px solid #000;
     border-radius: 8px;
   }
 
   .enter {
     height: 45px;
-    width: 120px;
+    width: 100px;
     border-radius: 5px;
     border: 2px solid #000;
     cursor: pointer;
     background-color: transparent;
     transition: 0.5s;
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: 10px;
     letter-spacing: 2px;
     margin-bottom: 1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
   }
 
   .enter:disabled {
