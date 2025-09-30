@@ -82,16 +82,22 @@ export default function Register() {
               className="file-input"
               required
             />
-            {/* <span style={{ left: 0, marginLeft: 10 }}>Avatar</span> */}
           </div>
 
           <button className="enter" type="submit" disabled={loading}>
-            {loading ? <Loader /> : "Create"}
+            <span className="button-text">{loading ? <Loader /> : "Create"}</span>
+            <span className="button-bg"></span>
           </button>
 
-          <div style={{ marginTop: 8 }}>
-            <Link to="/login" style={{ fontSize: 12, color: "#000" }}>
-              Already have an account? Login
+          <div style={{ marginTop: 8, textAlign: "center" }}>
+            <span style={{ fontSize: 12, color: "#666" }}>
+              Already have an account?{" "}
+            </span>
+            <Link 
+              to="/login" 
+              className="loginLink"
+            >
+              Login
             </Link>
           </div>
         </form>
@@ -101,6 +107,14 @@ export default function Register() {
 }
 
 const StyledWrapper = styled.div`
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+  }
+
   .login {
     color: #000;
     text-transform: uppercase;
@@ -114,19 +128,22 @@ const StyledWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 450px;
-    width: 300px; /* match login width */
+    min-height: 550px;
+    width: 50vw;
+    max-width: 600px;
+    min-width: 400px;
     flex-direction: column;
     gap: 28px;
     background: #e3e3e3;
     box-shadow: 16px 16px 32px #c8c8c8, -16px -16px 32px #fefefe;
     border-radius: 8px;
-    padding: 20px;
+    padding: 40px;
   }
 
   .inputBox {
     position: relative;
-    width: 250px; /* match login input width */
+    width: 80%;
+    max-width: 500px;
   }
 
   .inputBox input[type="text"],
@@ -147,7 +164,6 @@ const StyledWrapper = styled.div`
     box-sizing: border-box;
   }
 
-  /* keep native file input visible and clickable; style lightly to match other inputs */
   .inputBox .file-input {
     background: transparent;
   }
@@ -188,25 +204,120 @@ const StyledWrapper = styled.div`
 
   .enter {
     height: 45px;
-    width: 100px;
+    width: 120px;
     border-radius: 5px;
     border: 2px solid #000;
     cursor: pointer;
-    background-color: transparent;
-    transition: 0.5s;
+    background: linear-gradient(145deg, #e3e3e3, #ffffff);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     text-transform: uppercase;
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 2px;
     margin-bottom: 1em;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .button-text {
+    position: relative;
+    z-index: 2;
+    transition: all 0.4s ease;
+    display: inline-block;
+  }
+
+  .button-bg {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffa85c 100%);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 1;
+  }
+
+  .enter:hover {
+    border-color: #ff6b35;
+    box-shadow: 0 6px 25px rgba(255, 107, 53, 0.4);
+    transform: translateY(-3px);
+  }
+
+  .enter:hover .button-bg {
+    left: 0;
+  }
+
+  .enter:hover .button-text {
+    color: white;
+    transform: scale(1.05);
   }
 
   .enter:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
 
-  .enter:hover {
-    background-color: rgb(0, 0, 0);
-    color: white;
+  .enter:disabled:hover {
+    transform: none;
+    border-color: #000;
+  }
+
+  .enter:disabled .button-bg {
+    left: -100%;
+  }
+
+  .enter:active:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+  }
+
+  .loginLink {
+    font-size: 13px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    padding: 4px 12px;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .loginLink::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+  }
+
+  .loginLink:hover::before {
+    width: 100%;
+  }
+
+  .loginLink:hover {
+    filter: brightness(1.2);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    .card {
+      width: 90vw;
+      min-width: 300px;
+      padding: 30px 20px;
+    }
+
+    .inputBox {
+      width: 90%;
+    }
   }
 `;
