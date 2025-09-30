@@ -1,12 +1,9 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useAuth } from "../features/auth/AuthContext";
-import Loader from "../components/Loader";
+import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
 
-export default function PrivateRoute() {
-  const { user, loading } = useAuth();
-  const location = useLocation();
+const PrivateRoute: React.FC = () => {
+  const isAuthenticated = Boolean(localStorage.getItem("token")); // adapt to your auth logic if needed
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+};
 
-  if (loading) return <Loader />;
-  if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
-  return <Outlet />;
-}
+export default PrivateRoute;

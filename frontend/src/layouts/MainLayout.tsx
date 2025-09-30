@@ -1,14 +1,14 @@
+import React from "react";
 import { Outlet, Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 import Navbar from "../components/Navbar";
 
-export default function MainLayout({ children }: { children: React.ReactNode }) {
+const MainLayout: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col gradient-subtle">
       <Navbar />
       <main className="flex-1 container-responsive section min-h-[70vh]">
         <Outlet />
-        {children}
       </main>
       <footer className="border-t bg-white/70 backdrop-blur">
         <div className="container-responsive py-6 text-sm text-gray-600 flex flex-col sm:flex-row items-center justify-between gap-3">
@@ -28,4 +28,6 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       </Link>
     </div>
   );
-}
+};
+
+export default MainLayout;
