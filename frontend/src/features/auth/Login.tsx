@@ -105,7 +105,7 @@ export default function Login() {
           </div>
 
           <button className="enter" type="submit" disabled={loading}>
-            {loading ? <Loader /> : "Login"}
+            <span className="button-text">{loading ? <Loader /> : "Login"}</span>
           </button>
 
           <div style={{ marginTop: 8 }}>
@@ -114,9 +114,15 @@ export default function Login() {
             </Link>
           </div>
 
-          <div style={{ marginTop: 8 }}>
-            <Link to="/register" style={{ fontSize: 12, color: "#000" }}>
-              Don't have an account? Register
+          <div style={{ marginTop: 8, textAlign: "center" }}>
+            <span style={{ fontSize: 12, color: "#666" }}>
+              Don't have an account?{" "}
+            </span>
+            <Link 
+              to="/register" 
+              className="registerLink"
+            >
+              Register
             </Link>
           </div>
         </form>
@@ -126,6 +132,14 @@ export default function Login() {
 }
 
 const StyledWrapper = styled.div`
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+  }
+
   .login {
     color: #000;
     text-transform: uppercase;
@@ -139,14 +153,16 @@ const StyledWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 420px;
-    width: 300px;
+    min-height: 500px;
+    width: 50vw;
+    max-width: 600px;
+    min-width: 400px;
     flex-direction: column;
     gap: 22px;
     background: #e3e3e3;
     box-shadow: 16px 16px 32px #c8c8c8, -16px -16px 32px #fefefe;
     border-radius: 8px;
-    padding: 20px;
+    padding: 40px;
   }
 
   .toggleRow {
@@ -171,7 +187,8 @@ const StyledWrapper = styled.div`
 
   .inputBox {
     position: relative;
-    width: 250px;
+    width: 80%;
+    max-width: 500px;
   }
 
   .inputBox input[type="text"],
@@ -245,12 +262,54 @@ const StyledWrapper = styled.div`
     border-radius: 5px;
     border: 2px solid #000;
     cursor: pointer;
-    background-color: transparent;
-    transition: 0.5s;
+    /* base background (subtle light) */
+    background: linear-gradient(145deg, #e3e3e3, #ffffff);
+    transition: all 0.45s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     text-transform: uppercase;
     font-size: 12px;
     letter-spacing: 2px;
     margin-bottom: 1em;
+    position: relative;
+    overflow: hidden;
+    z-index: 1; /* so ::before sits under content */
+    color: #000;
+  }
+
+  .button-text {
+    position: relative;
+    z-index: 2;
+    transition: color 0.25s ease, transform 0.25s ease;
+    display: inline-block;
+  }
+
+  /* animated orange sliding background */
+  .enter::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffa85c 100%);
+    transition: left 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 0;
+  }
+
+  .enter:hover:not(:disabled) {
+    border-color: #ff6b35;
+    box-shadow: 0 6px 25px rgba(255, 107, 53, 0.35);
+    transform: translateY(-3px);
+    /* keep text white and above the sliding bg */
+    color: #fff;
+  }
+
+  .enter:hover .button-text {
+    color: #fff;
+    transform: scale(1.03);
+  }
+
+  .enter:hover::before {
+    left: 0;
   }
 
   .enter:disabled {
@@ -258,8 +317,49 @@ const StyledWrapper = styled.div`
     cursor: not-allowed;
   }
 
-  .enter:hover:not(:disabled) {
-    background-color: rgb(0, 0, 0);
-    color: white;
+  .registerLink {
+    font-size: 13px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    padding: 4px 12px;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .registerLink::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .registerLink:hover::after {
+    transform: scaleX(1);
+  }
+
+  .registerLink:hover {
+    filter: brightness(1.2);
+  }
+
+  @media (max-width: 768px) {
+    .card {
+      width: 90vw;
+      min-width: 300px;
+      padding: 30px 20px;
+    }
+
+    .inputBox {
+      width: 90%;
+    }
   }
 `;
