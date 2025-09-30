@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://blogwebsite-4wem.onrender.com/api/v1",
+  baseURL: import.meta.env.VITE_API_URL ?? "http://localhost:8000/api/v1",
   withCredentials: true,
 });
 
@@ -9,7 +9,11 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    // ensure headers object exists and assign the Authorization header safely
+    config.headers = config.headers ?? {};
+    (config.headers as any).Authorization = `Bearer ${token}`;
+    // alternatively:
+    // config.headers = { ...(config.headers as Record<string, any>), Authorization: `Bearer ${token}` };
   }
   return config;
 });
