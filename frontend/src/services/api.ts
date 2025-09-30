@@ -8,7 +8,6 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// Add this interceptor:
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -16,6 +15,8 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+
 
 // User API functions
 export const userAPI = {
@@ -25,6 +26,7 @@ export const userAPI = {
     api.post("/users/login", credentials),
   logout: () => api.post("/users/logout"),
   refreshToken: () => api.post("/users/refresh-token"),
+  //   forgotPassword: (email: string) => api.post("/users/forgot-password", { email }),
   forgotPassword: (email: string) => api.post("/users/forgot-password", { email }),
   resetPassword: (token: string, newPassword: string, confirmPassword: string) =>
     api.post(`/users/reset-password/${token}`, { token,newPassword, confirmPassword }),
