@@ -1,13 +1,11 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://blogwebsite-4wem.onrender.com/api/v1",
-   headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: "http://localhost:8000/api/v1",
   withCredentials: true,
 });
 
+// Add this interceptor:
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -15,8 +13,6 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
-
-
 
 // User API functions
 export const userAPI = {
@@ -26,7 +22,6 @@ export const userAPI = {
     api.post("/users/login", credentials),
   logout: () => api.post("/users/logout"),
   refreshToken: () => api.post("/users/refresh-token"),
-  //   forgotPassword: (email: string) => api.post("/users/forgot-password", { email }),
   forgotPassword: (email: string) => api.post("/users/forgot-password", { email }),
   resetPassword: (token: string, newPassword: string, confirmPassword: string) =>
     api.post(`/users/reset-password/${token}`, { token,newPassword, confirmPassword }),
@@ -47,7 +42,7 @@ export const userAPI = {
     formData.append("coverImage", coverImage);
     return api.patch("/users/update-cover", formData);
   },
-  getUserProfile: () => api.get(`/users/current-user`),
+  getUserProfile: (username: string) => api.get(`/users/username-profile/${username}`),
   deleteAccount: (password: string) => api.delete("/users/delete-account", { data: { password } }),
   getAllUsers: () => api.get("/users/all-users"),
 };
